@@ -1,0 +1,10 @@
+/app/config/parameters.yml
+/vendor/
+.idea
+.project
+.settings
+.buildpath
+npm-debug.log
+app/phpunit.xml
+/bin/*
+!/bin/phputil

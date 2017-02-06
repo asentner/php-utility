@@ -1,0 +1,25 @@
+{
+    "name": "asentner/php-utility",
+    "description": "A collection of utility scripts to cleanup PHP files",
+    "license": "Apache-2.0",
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "symfony/console": "~3.2",
+        "symfony/finder": "~3.2",
+        "symfony/process": "~3.2",
+        "symfony/filesystem": "~3.2",
+        "symfony/yaml": "~3.2"
+    },
+    "bin": [
+        "bin/phputil"
+    ],
+    "config": {
+        "bin-dir": "bin",
+        "secure-http": false
+    }
+}

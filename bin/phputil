@@ -1,0 +1,51 @@
+#!/usr/bin/env php
+<?php
+
+if (PHP_SAPI !== 'cli') {
+    die('Warning: This should be invoked via the CLI version of PHP, not the '.PHP_SAPI.' SAPI');
+}
+
+// Require the autoloader and global namespace stuff
+require __DIR__.'/../src/bootstrap.php';
+
+use PhpUtility\Console\Application;
+
+// Show all errors except deprecated warnings
+error_reporting(-1 ^ E_DEPRECATED ^ E_NOTICE);
+
+// No time limit
+set_time_limit(0);
+
+// Check if we can ini_set
+if (function_exists('ini_set')) {
+    // Enable display_errors
+    @ini_set('display_errors', 1);
+    // Set memory_limit
+    $memoryInBytes = function ($value) {
+        $unit = strtolower(substr($value, -1, 1));
+        $value = (int) $value;
+        switch($unit) {
+            case 'g':
+                $value *= 1024;
+            // no break (cumulative multiplier)
+            case 'm':
+                $value *= 1024;
+            // no break (cumulative multiplier)
+            case 'k':
+                $value *= 1024;
+        }
+        return $value;
+    };
+    $memoryLimit = trim(ini_get('memory_limit'));
+
+    // Increase memory_limit if it is lower than 1GB
+    if ($memoryLimit != -1 && $memoryInBytes($memoryLimit) < 1024 * 1024 * 1024) {
+        @ini_set('memory_limit', '1G');
+    }
+
+    unset($memoryInBytes, $memoryLimit);
+}
+
+// Instantiate the application
+$app = new Application();
+$app->run();
